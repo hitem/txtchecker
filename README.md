@@ -1,6 +1,6 @@
 # TXTChecker
 TXTChecker is a tool designed to check domains for specific TXT records (such as SPF records) stored in DNS. It can generate random domain names or use a provided word list to form domain names with specified TLDs. The tool queries DNS servers for TXT records and identifies domains with the specified TXT record.<br><br>
-![txtchecker ](https://github.com/hitem/txtchecker/assets/8977898/1076910d-edf2-45df-b0bc-f853bca03d03)
+![txtchecker](https://github.com/hitem/txtchecker/assets/8977898/a65298d4-ef28-47fb-9134-31d3ec270605)
 <br>
 # Install
 ```powershell
@@ -17,7 +17,7 @@ Options
 ```powershell
 -l, --list: Path to the word list file.
 -w, --workers: Number of concurrent threads (default: 10).
--a, --auto: Enable auto mode for random domain generation (3-8 character).
+-a, --auto: Enable auto mode for random domain generation (3-8 character)
 -t, --time: Run time in seconds for auto mode.
 -d, --dns: DNS server to use for queries (required).
 -x, --txt: TXT record to look for (required).
