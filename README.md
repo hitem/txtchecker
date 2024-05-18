@@ -1,6 +1,6 @@
 # TXTChecker
 TXTChecker is a tool designed to check domains for specific TXT records (such as SPF records) stored in DNS. It can generate random domain names or use a provided word list to form domain names with specified TLDs. The tool queries DNS servers for TXT records and identifies domains with the specified TXT record.<br><br>
-![txtchecker](https://github.com/hitem/txtchecker/assets/8977898/a65298d4-ef28-47fb-9134-31d3ec270605)
+![txtchecker](https://github.com/hitem/txtchecker/assets/8977898/1079411f-c2f3-47c9-9e79-830280fa8394)
 <br>
 # Install
 ```powershell
@@ -12,6 +12,8 @@ python3 .\txtchecker.py -h
 ```powershell
 > python3 .\txtchecker.py [OPTIONS]
 > python3 .\txtchecker.py -h [--help]
+> python3 .\\txtchecker.py -l words.txt -w 20 -d 8.8.8.8 -x "v=spf1 mytxtrecordimlookingfor"
+> python3 .\\txtchecker.py -a -w 50 -d 8.8.8.8 -t 10 -x "v=spf1 mytxtrecordimlookingfor" --tlds ".se,.com,.gov"
 ```
 Options
 ```powershell
