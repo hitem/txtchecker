@@ -22,7 +22,7 @@ Options
 -l, --list: Path to the word list file.
 -w, --workers: Number of concurrent threads (default: 10).
 -a, --auto: Enable auto mode for random domain generation (3-8 character)
--t, --time: Run time in seconds for auto mode.
+-t, --time: Run time in seconds for auto mode (used together with -a for time limited run).
 -d, --dns: DNS server to use for queries (required).
 -x, --txt: TXT record to look for (required).
 --tlds: Comma-separated list of TLDs to use (default: .com,.se,.no,.dk).
