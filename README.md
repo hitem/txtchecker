@@ -43,5 +43,5 @@ pip install dnspython colorama unidecode
 3. **DNS Queries:** Concurrently queries the specified DNS server for TXT records of the generated domains.
 4. **TXT Record Check:** Compares the TXT records to the specified TXT record.
 5. **Real-time Updates:** Displays the number of processed domains and elapsed time in real-time
-![inuse](https://github.com/hitem/txtchecker/assets/8977898/be2a56da-0030-49d5-910d-4bbec4f318c1) 
+![2024-05-18_20-30-10](https://github.com/hitem/txtchecker/assets/8977898/bb56febd-3fcf-4c28-aabf-c3d75db35627)
 6. **Output:** Prints domains with the specified TXT record and saves them to ```successful_domains.txt.```
