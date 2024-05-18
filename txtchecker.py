@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import dns.resolver
 import argparse
 import random
@@ -8,10 +9,10 @@ import sys
 import time
 from colorama import Fore, Style, init
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from threading import Event, Thread
+from threading import Event, Thread, Lock
 from unidecode import unidecode
 import socket
-from colorsys import rgb_to_hsv, hsv_to_rgb
+import os
 
 # Initialize colorama
 init(autoreset=True)
@@ -22,6 +23,7 @@ successful_domains = []
 start_time = None
 txt_record_to_check = None
 tlds = ['.com', '.se', '.no', '.dk']  # Default TLDs
+lock = Lock()  # Lock for writing to the file
 
 def interpolate_color(color1, color2, factor):
     """Interpolate between two RGB colors."""
@@ -69,7 +71,7 @@ def print_logo_and_instructions():
     instructions = f"""
     {rainbow_logo}{Style.RESET_ALL}
     {Fore.LIGHTBLACK_EX}Improve your reconnaissance by {Fore.RED}hitemSec{Style.RESET_ALL}
-    {Fore.LIGHTBLACK_EX}How-To: {Fore.YELLOW}python3 .\\txtchecker.py -h{Style.RESET_ALL}
+    {Fore.LIGHTBLACK_EX}How-To: {Fore.YELLOW}isitup.py -h{Style.RESET_ALL}
 
     {Fore.GREEN}TXTChecker - Usage Instructions{Style.RESET_ALL}
     {Fore.YELLOW}-------------------------------------{Style.RESET_ALL}
@@ -82,7 +84,7 @@ def print_logo_and_instructions():
     -l, --list          Path to the word list file
     -w, --workers       Number of concurrent threads (default: 10)
     -a, --auto          Enable auto mode for random domain generation (3-8 characters)
-    -t, --time          Run time in seconds for auto mode (used together with -a)
+    -t, --time          Run time in seconds for auto mode (used together with -a for time limited run)
     -d, --dns           DNS server to use for queries (required)
     -x, --txt           TXT record to look for (required)
     --tlds              Comma-separated list of TLDs to use (default: .com,.se,.no,.dk)
@@ -92,7 +94,7 @@ def print_logo_and_instructions():
         python3 .\\txtchecker.py -l words.txt -w 20 -d 8.8.8.8 -x "v=spf1 include:_custspf.one.com ~all"
 
     Generate random domains for 10 seconds:
-        python3 .\\txtchecker.py -a -w 50 -d 8.8.8.8 -t 10 -x "v=spf1 include:_custspf.one.com ~all" --tlds ".co.uk,.com,.gov"
+        python3 .\\txtchecker.py -a -w 50 -d 8.8.8.8 -t 10 -x "v=spf1 include:_custspf.one.com ~all" --tlds ".se,.com,.gov"
 
     {Fore.GREEN}Happy Recon!{Style.RESET_ALL}
     """
@@ -136,8 +138,11 @@ def check_txt(domain, resolver):
             sys.stdout.write(f"\n{Fore.GREEN}[+] Found TXT record on {domain}\n")
             successful_domains.append(domain)
             with lock:
-                with open('successful_domains.txt', 'a') as f:
-                    f.write(f"{domain}\n")
+                try:
+                    with open('successful_domains.txt', 'a') as f:
+                        f.write(f"{domain}\n")
+                except Exception as e:
+                    print(f"{Fore.RED}Error writing to file: {e}{Style.RESET_ALL}")
             return True
     return False
 
@@ -169,8 +174,6 @@ def check_domains_from_word(word, tlds, resolver):
 def signal_handler(sig, frame):
     stop_event.set()
     print(f'\n{Fore.RED}Process interrupted. Exiting gracefully...')
-    print_final_output()
-    sys.exit(0)
 
 def update_domain_count():
     """Update the domain count display dynamically."""
@@ -231,23 +234,18 @@ def main():
     count_thread = Thread(target=update_domain_count)
     count_thread.start()
 
-    if args.auto:
+    try:
         with ThreadPoolExecutor(max_workers=args.workers) as executor:
-            futures = [executor.submit(check_domains, tlds, resolver, auto=True) for _ in range(args.workers)]
-            try:
-                for future in as_completed(futures):
-                    if stop_event.is_set():
-                        break
+            if args.auto:
+                futures = [executor.submit(check_domains, tlds, resolver, auto=True) for _ in range(args.workers)]
+                while not stop_event.is_set():
+                    time.sleep(1)
                     if args.time and (time.time() - start_time) > args.time:
                         stop_event.set()
                         break
-            except KeyboardInterrupt:
-                signal_handler(None, None)
-    else:
-        words = load_words(args.list)
-        with ThreadPoolExecutor(max_workers=args.workers) as executor:
-            futures = {executor.submit(check_domains_from_word, word, tlds, resolver): word for word in words}
-            try:
+            else:
+                words = load_words(args.list)
+                futures = {executor.submit(check_domains_from_word, word, tlds, resolver): word for word in words}
                 for future in as_completed(futures):
                     if stop_event.is_set():
                         break
@@ -258,13 +256,12 @@ def main():
                             found_any = True
                     except Exception as exc:
                         print(f"{Fore.RED}Exception occurred while checking {word}: {exc}")
-            except KeyboardInterrupt:
-                signal_handler(None, None)
-
-    stop_event.set()
-    count_thread.join()
-
-    print_final_output()
+    except KeyboardInterrupt:
+        signal_handler(None, None)
+    finally:
+        stop_event.set()
+        count_thread.join()
+        print_final_output()
 
 if __name__ == "__main__":
     try:
