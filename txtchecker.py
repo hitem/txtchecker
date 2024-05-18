@@ -89,10 +89,10 @@ def print_logo_and_instructions():
     
     {Fore.YELLOW}Examples:{Style.RESET_ALL}
     Check domains from a word list:
-        python3 txt_checker.py -l words.txt -w 20 -d 8.8.8.8 -x "v=spf1 include:_custspf.one.com ~all"
+        python3 .\\txtchecker.py -l words.txt -w 20 -d 8.8.8.8 -x "v=spf1 include:_custspf.one.com ~all"
 
     Generate random domains for 10 seconds:
-        python3 txt_checker.py -a -w 50 -d 8.8.8.8 -t 10 -x "v=spf1 include:_custspf.one.com ~all" --tlds ".co.uk,.com,.gov"
+        python3 .\\txtchecker.py -a -w 50 -d 8.8.8.8 -t 10 -x "v=spf1 include:_custspf.one.com ~all" --tlds ".co.uk,.com,.gov"
 
     {Fore.GREEN}Happy Recon!{Style.RESET_ALL}
     """
@@ -135,6 +135,9 @@ def check_txt(domain, resolver):
         if txt.strip() == txt_record_to_check:
             sys.stdout.write(f"\n{Fore.GREEN}[+] Found TXT record on {domain}\n")
             successful_domains.append(domain)
+            with lock:
+                with open('successful_domains.txt', 'a') as f:
+                    f.write(f"{domain}\n")
             return True
     return False
 
@@ -181,9 +184,6 @@ def print_final_output():
     """Print the final output when the script ends."""
     print(f"\n{Fore.YELLOW}{domain_count} domains processed.")
     if successful_domains:
-        with open('successful_domains.txt', 'w') as f:
-            for domain in successful_domains:
-                f.write(f"{domain}\n")
         print(f"{Fore.GREEN}Successful domains written to successful_domains.txt")
     else:
         print(f"{Fore.YELLOW}No domains with the specified TXT record were found.")
