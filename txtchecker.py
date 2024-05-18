@@ -71,7 +71,7 @@ def print_logo_and_instructions():
     instructions = f"""
     {rainbow_logo}{Style.RESET_ALL}
     {Fore.LIGHTBLACK_EX}Improve your reconnaissance by {Fore.RED}hitemSec{Style.RESET_ALL}
-    {Fore.LIGHTBLACK_EX}How-To: {Fore.YELLOW}isitup.py -h{Style.RESET_ALL}
+    {Fore.LIGHTBLACK_EX}How-To: {Fore.YELLOW}python3 .\\txtchecker.py -h{Style.RESET_ALL}
 
     {Fore.GREEN}TXTChecker - Usage Instructions{Style.RESET_ALL}
     {Fore.YELLOW}-------------------------------------{Style.RESET_ALL}
@@ -200,8 +200,8 @@ def main():
     parser = argparse.ArgumentParser(description="Check domains for specific TXT record.")
     parser.add_argument('-l', '--list', help="Path to the word list file")
     parser.add_argument('-w', '--workers', type=int, default=10, help="Number of concurrent threads")
-    parser.add_argument('-a', '--auto', action='store_true', help="Enable auto mode for random domain generation")
-    parser.add_argument('-t', '--time', type=int, help="Run time in seconds for auto mode")
+    parser.add_argument('-a', '--auto', action='store_true', help="Enable auto mode for random domain generation (3-8 characters)")
+    parser.add_argument('-t', '--time', type=int, help="Run time in seconds for auto mode (used together with -a for time limited run)")
     parser.add_argument('-d', '--dns', required=True, help="DNS server to use for queries")
     parser.add_argument('-x', '--txt', required=True, help="TXT record to look for")
     parser.add_argument('--tlds', help="Comma-separated list of TLDs to use (default: .com,.se,.no,.dk)")
