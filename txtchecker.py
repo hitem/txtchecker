@@ -69,7 +69,7 @@ def print_logo_and_instructions():
     instructions = f"""
     {rainbow_logo}{Style.RESET_ALL}
     {Fore.LIGHTBLACK_EX}Improve your reconnaissance by {Fore.RED}hitemSec{Style.RESET_ALL}
-    {Fore.LIGHTBLACK_EX}How-To: {Fore.YELLOW}isitup.py -h{Style.RESET_ALL}
+    {Fore.LIGHTBLACK_EX}How-To: {Fore.YELLOW}python3 .\\txtchecker.py -h{Style.RESET_ALL}
 
     {Fore.GREEN}TXTChecker - Usage Instructions{Style.RESET_ALL}
     {Fore.YELLOW}-------------------------------------{Style.RESET_ALL}
