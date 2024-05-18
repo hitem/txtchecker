@@ -81,7 +81,7 @@ def print_logo_and_instructions():
     {Fore.YELLOW}Options:{Style.RESET_ALL}
     -l, --list          Path to the word list file
     -w, --workers       Number of concurrent threads (default: 10)
-    -a, --auto          Enable auto mode for random domain generation (3-8 characters).
+    -a, --auto          Enable auto mode for random domain generation (3-8 characters)
     -t, --time          Run time in seconds for auto mode (used together with -a)
     -d, --dns           DNS server to use for queries (required)
     -x, --txt           TXT record to look for (required)
