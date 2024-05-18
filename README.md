@@ -40,7 +40,7 @@ pip install dnspython colorama unidecode
 2. **Domain Generation:**\
    A. In auto mode, generates random domain names of lengths between 3 and 8 characters.\
    B. If a word list is provided, generates domain names by appending TLDs to words in the list.
-![inuse](https://github.com/hitem/txtchecker/assets/8977898/be2a56da-0030-49d5-910d-4bbec4f318c1) \
+![inuse](https://github.com/hitem/txtchecker/assets/8977898/be2a56da-0030-49d5-910d-4bbec4f318c1) 
 3. **DNS Queries:** Concurrently queries the specified DNS server for TXT records of the generated domains.
 4. **TXT Record Check:** Compares the TXT records to the specified TXT record.
 5. **Real-time Updates:** Displays the number of processed domains and elapsed time in real-time
