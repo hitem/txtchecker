@@ -12,8 +12,8 @@ python3 .\txtchecker.py -h
 ```powershell
 > python3 .\txtchecker.py [OPTIONS]
 > python3 .\txtchecker.py -h [--help]
-> python3 .\\txtchecker.py -l words.txt -w 20 -d 8.8.8.8 -x "v=spf1 mytxtrecordimlookingfor"
-> python3 .\\txtchecker.py -a -w 50 -d 8.8.8.8 -t 10 -x "v=spf1 mytxtrecordimlookingfor" --tlds ".se,.com,.gov"
+> python3 .\txtchecker.py -l words.txt -w 20 -d 8.8.8.8 -x "v=spf1 mytxtrecordimlookingfor"
+> python3 .\txtchecker.py -a -w 50 -d 8.8.8.8 -t 10 -x "v=spf1 mytxtrecordimlookingfor" --tlds ".se,.com,.gov"
 ```
 Options
 ```powershell
