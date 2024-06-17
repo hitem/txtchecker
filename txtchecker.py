@@ -41,15 +41,9 @@ def print_logo_and_instructions():
  ██▌▐▀▐█▌ ▐█▌·▐█▄▄▌██ ██▌▐█▌▐█▄▪▐█▐█▄▄▌▐███▌ 
  ▀▀▀ ·▀▀▀ ▀▀▀  ▀▀▀ ▀▀  █▪▀▀▀ ▀▀▀▀  ▀▀▀ ·▀▀▀  
     """
-
     colors = [
-        (255, 0, 0),  # Red
-        (255, 165, 0),  # Orange
-        (255, 255, 0),  # Yellow
-        (0, 255, 0),  # Green
-        (0, 127, 255),  # Blue
-        (0, 0, 255),  # Indigo
-        (139, 0, 255)  # Violet
+        (255, 0, 255),  # Purple
+        (0, 0, 255)     # Blue
     ]
 
     num_colors = len(colors)
